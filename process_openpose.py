@@ -5,18 +5,13 @@ import argparse
 def process(interpolate,smoothing):
     head_keys = [14, 15, 16, 17]
     neck_key = [0]
-    print('processing .....')
-    print('----1----')
-    p_2ds = opp.get_2ds_from_jsons(args.input_path)
-    print('----2----')
-    p_2ds = opp.handle_head_keypoints(p_2ds, neck_key, head_keys)
-    print('----3----')
+    print('processing .....') 
+    p_2ds = opp.get_2ds_from_jsons(args.input_path) 
+    p_2ds = opp.handle_head_keypoints(p_2ds, neck_key, head_keys) 
     if interpolate:
-        p_2ds = opp.openpose_interpolate(p_2ds)
-        print('----4----')
+        p_2ds = opp.openpose_interpolate(p_2ds) 
     if smoothing:
-        p_2ds = opp.openpose_smoothing(p_2ds)
-        print('----5----')
+        p_2ds = opp.openpose_smoothing(p_2ds) 
     print("Done")
     return p_2ds
 
@@ -34,5 +29,4 @@ if __name__ == "__main__":
     interpolate=1
     smoothing=1 
     p_2ds = process(interpolate,smoothing)#
-    save_data(args.save_path,args.save_file_name,p_2ds)
-    #print(p_2ds.shape)
+    save_data(args.save_path,args.save_file_name,p_2ds) 

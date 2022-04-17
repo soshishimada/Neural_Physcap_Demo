@@ -60,11 +60,10 @@ class LossFunctions:
         out_mat = self.AU.get_44_rotation_matrix_from_33_rotation_matrix(out_mat)  # (batch*joint_num)*4*4
         loss_rootOri = self.AU.compute_rotation_matrix_loss(out_mat, gt_rotMats.view(n_b, 4, 4))/n_b
 
-        #print(out_trans.shape,gt_qs.shape,out_quat.shape,gt_3Ds.shape,gt_2Ds.shape)
+         
         loss_trans = (out_trans - gt_qs[:,:3]).pow(2).sum()/n_b
         loss_q = ((torch.sin(torch.squeeze(q_art)) - torch.sin(gt_qs[:,7:])).pow(2).sum() + (torch.cos(torch.squeeze(q_art)) - torch.cos(gt_qs[:,7:])).pow(2).sum()) / 2
-        loss_q /=n_b
-        #print(p_3D_p.shape,gt_3Ds.shape)
+        loss_q /=n_b 
         loss3D_p = ( p_3D_p  - gt_3Ds.view(n_b,-1) ).pow(2).sum()/n_b
         loss2D = (torch.squeeze(p_2D).view(n_b, -1, 2) - gt_2Ds).pow(2).sum()/n_b
 
@@ -83,10 +82,9 @@ class LossFunctions:
 
     def compute_q_p3d_p2d_loss(self,q_art,p_3D_p,p_2D,gt_qs,gt_3Ds,gt_2Ds):
         n_b,_= q_art.shape
-
-        #loss_q = ((torch.sin(torch.squeeze(q_art)) - torch.sin(gt_qs[:,7:])).pow(2).sum() + (torch.cos(torch.squeeze(q_art)) - torch.cos(gt_qs[:,7:])).pow(2).sum()) / 2
+ 
         loss_q = ((torch.sin(torch.squeeze(q_art)) - torch.sin(gt_qs[:, 7:])).pow(2)  + ( torch.cos(torch.squeeze(q_art)) - torch.cos(gt_qs[:, 7:])).pow(2) ).mean()
-        #loss_q = ((torch.sin(torch.squeeze(q_art)) - torch.sin(gt_qs[:, 7:])).pow(2)  + ( torch.cos(torch.squeeze(q_art)) - torch.cos(gt_qs[:, 7:])).pow(2) ).mean()
+     
 
         loss3D_p = ( p_3D_p  - gt_3Ds.view(n_b,-1) ).pow(2).mean()#/n_b
 
@@ -96,9 +94,9 @@ class LossFunctions:
     def compute_part_q_p3d_p2d_loss(self, q_art, p_3D_p, p_2D, gt_qs, gt_3Ds, gt_2Ds):
         n_b, _ = q_art.shape
         gt_qs_art = gt_qs[:,7:]
-        # loss_q = ((torch.sin(torch.squeeze(q_art)) - torch.sin(gt_qs[:,7:])).pow(2).sum() + (torch.cos(torch.squeeze(q_art)) - torch.cos(gt_qs[:,7:])).pow(2).sum()) / 2
+        
         loss_q_right_leg = ((torch.sin(q_art[:,[12,14]]) - torch.sin(gt_qs_art[:, [12,14]])).pow(2) + (torch.cos(q_art[:, [12,14]]) - torch.cos(gt_qs_art[:, [12,14]])).pow(2)).mean()
-        # loss_q = ((torch.sin(torch.squeeze(q_art)) - torch.sin(gt_qs[:, 7:])).pow(2)  + ( torch.cos(torch.squeeze(q_art)) - torch.cos(gt_qs[:, 7:])).pow(2) ).mean()
+         
 
         loss3D_p = (p_3D_p - gt_3Ds.view(n_b, -1)).pow(2).mean()  # /n_b
 
@@ -108,17 +106,17 @@ class LossFunctions:
     def compute_q_p3d_p2d_more_hand_loss(self,q_art,p_3D_p,p_2D,gt_qs,gt_3Ds,gt_2Ds,weights):
         n_b,_= q_art.shape
 
-        #loss_q = ((torch.sin(torch.squeeze(q_art)) - torch.sin(gt_qs[:,7:])).pow(2).sum() + (torch.cos(torch.squeeze(q_art)) - torch.cos(gt_qs[:,7:])).pow(2).sum()) / 2
+         
         loss_q = ((torch.sin(torch.squeeze(q_art)) - torch.sin(gt_qs[:, 7:])).pow(2)  + ( torch.cos(torch.squeeze(q_art)) - torch.cos(gt_qs[:, 7:])).pow(2) ).mean()
 
 
-        residual_3D = ( p_3D_p  - gt_3Ds.view(n_b,-1) ).view(n_b,-1,3)#.pow(2).mean()#/n_b
+        residual_3D = ( p_3D_p  - gt_3Ds.view(n_b,-1) ).view(n_b,-1,3) 
         hand_loss = residual_3D[:,11].detach().clone().pow(2).mean()+residual_3D[:,14].detach().clone().pow(2).mean()
         residual_3D = weights*residual_3D
-        loss3D_p = residual_3D.pow(2).mean()#/n_b
+        loss3D_p = residual_3D.pow(2).mean() 
         residual_2D =(torch.squeeze(p_2D) - gt_2Ds.view(n_b,-1)).view(n_b,-1,2)
         residual_2D = weights * residual_2D
-        loss2D = residual_2D.pow(2).mean()  # /n_b
+        loss2D = residual_2D.pow(2).mean() 
         return loss_q,loss3D_p,loss2D,hand_loss
 
     def irregular_angle_loss(self,q_art, max_angles, min_angles):
@@ -133,11 +131,11 @@ class LossFunctions:
     def compute_q_p3d_p2d_loss_self(self,q_art,p_3D_p,p_2D,q_ref,gt_3Ds,gt_2Ds):
         n_b,_= q_art.shape
 
-        #loss_q = ((torch.sin(torch.squeeze(q_art)) - torch.sin(gt_qs[:,7:])).pow(2).sum() + (torch.cos(torch.squeeze(q_art)) - torch.cos(gt_qs[:,7:])).pow(2).sum()) / 2
+         
         loss_q = ((torch.sin(torch.squeeze(q_art)) - torch.sin(q_ref[:, 6:-1])).pow(2)  + ( torch.cos(torch.squeeze(q_art)) - torch.cos(q_ref[:, 6:-1])).pow(2) ).mean()
 
 
-        loss3D_p = ( p_3D_p  - gt_3Ds.view(n_b,-1) ).pow(2).mean()#/n_b
+        loss3D_p = ( p_3D_p  - gt_3Ds.view(n_b,-1) ).pow(2).mean() 
 
-        loss2D = (torch.squeeze(p_2D) - gt_2Ds.view(n_b,-1)).pow(2).mean()#/n_b
+        loss2D = (torch.squeeze(p_2D) - gt_2Ds.view(n_b,-1)).pow(2).mean() 
         return loss_q,loss3D_p,loss2D

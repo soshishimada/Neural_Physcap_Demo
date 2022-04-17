@@ -1,14 +1,11 @@
 from torch import nn
 import torch
-import math
-#import numpy as np
-#import torch.nn.functional as F
+import math 
 
 class GRFNet(nn.Module):
     def __init__(self, input_dim, output_dim):
         super(GRFNet, self).__init__()
-        hidden = 512 
-       # self.tanh = nn.Tanh()
+        hidden = 512  
         self.fc1 = nn.Linear(input_dim, hidden)
         self.fc2 = nn.Linear(hidden, hidden)
         self.fc3 = nn.Linear(hidden, hidden)  
@@ -28,9 +25,7 @@ class GRFNet(nn.Module):
 class DynamicNetwork(nn.Module):
     def __init__(self, input_dim,output_dim,offset_coef):
         super(DynamicNetwork, self).__init__()
-        hidden = 1024
-        #root_dim = 6 + 3  # 2*(43-6)+6   #+  2
-        #joint_dim = 37  # + 3
+        hidden = 1024 
         self.bn1 = nn.BatchNorm1d(input_dim, affine=True)
         self.bn2 = nn.BatchNorm1d(hidden, affine=True)
         self.bn3 = nn.BatchNorm1d(hidden, affine=True)
@@ -39,19 +34,16 @@ class DynamicNetwork(nn.Module):
         self.fc1 = nn.Linear(input_dim, hidden)
         self.fc2 = nn.Linear(hidden, hidden)
         self.fc_offset = nn.Linear(hidden, output_dim)
-        self.fc_gains = nn.Linear(hidden, output_dim)
-        #self.fcOriRoot = nn.Linear(hidden, 6)
-        self.sig=nn.Sigmoid()
-        #self.fcTransRoot = nn.Linear(hidden, output_dim)
+        self.fc_gains = nn.Linear(hidden, output_dim) 
+        self.sig=nn.Sigmoid() 
         self.LReLU = nn.LeakyReLU(0.1)
         self.offset_coef=offset_coef
     def forward(self, x):
         x = self.LReLU( self.fc1(x))#)
-        x = self.LReLU( self.fc2(x))#)
-        #x = self.fc3(x) #)
+        x = self.LReLU( self.fc2(x))#) 
         gains = 2 *self.sig(self.fc_gains(x))
         offset =self.offset_coef * self.tanh(self.fc_offset(x))
-        #x = math.pi*self.tanh(self.fc4(x))#self.fc4(x)#math.pi*self.tanh(self.fc4(x))
+       
         return gains,offset
 
 class TransCan3Dkeys2(nn.Module):
@@ -93,8 +85,7 @@ class TransCan3Dkeys2(nn.Module):
         self.layers_conv = nn.ModuleList(layers_conv)
         self.layers_bn = nn.ModuleList(layers_bn)
 
-    def forward(self,  p2ds,p3d):
-        #print(x.shape,q0.shape)
+    def forward(self,  p2ds,p3d): 
         """
         Args:
         x - (B x T x J x C)
@@ -156,8 +147,7 @@ class TransCan3Dkeys(nn.Module):
         self.layers_conv = nn.ModuleList(layers_conv)
         self.layers_bn = nn.ModuleList(layers_bn)
 
-    def forward(self,  p2ds,p3d):
-        #print(x.shape,q0.shape)
+    def forward(self,  p2ds,p3d): 
         """
         Args:
         x - (B x T x J x C)
@@ -213,8 +203,7 @@ class ContactEstimationNetwork(nn.Module):
         self.layers_conv = nn.ModuleList(layers_conv)
         self.layers_bn = nn.ModuleList(layers_bn)
 
-    def forward(self,x):
-        #print(x.shape,q0.shape)
+    def forward(self,x): 
         """
         Args:
         x - (B x T x J x C)
@@ -271,8 +260,7 @@ class TargetPoseNetOriCon(nn.Module):
         self.layers_conv = nn.ModuleList(layers_conv)
         self.layers_bn = nn.ModuleList(layers_bn)
 
-    def forward(self,x):
-        #print(x.shape,q0.shape)
+    def forward(self,x): 
         """
         Args:
         x - (B x T x J x C)
@@ -328,8 +316,7 @@ class TargetPoseNetArtOri(nn.Module):
         self.layers_conv = nn.ModuleList(layers_conv)
         self.layers_bn = nn.ModuleList(layers_bn)
 
-    def forward(self,x):
-        #print(x.shape,q0.shape)
+    def forward(self,x): 
         """
         Args:
         x - (B x T x J x C)
@@ -383,8 +370,7 @@ class TargetPoseNetArt(nn.Module):
         self.layers_conv = nn.ModuleList(layers_conv)
         self.layers_bn = nn.ModuleList(layers_bn)
 
-    def forward(self, x):
-        # print(x.shape,q0.shape)
+    def forward(self, x): 
         """
         Args:
         x - (B x T x J x C)

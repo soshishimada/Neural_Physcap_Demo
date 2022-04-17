@@ -156,7 +156,7 @@ class InferencePipeline():
             p_2D[:,:,0]/=self.w
             p_2D[:,:,1]/=self.h
             loss2D = (p_2D.view(1,  -1) - target_2D.view(1,  -1)).pow(2).sum() + 10* (trans_variable-trans0).pow(2).sum()
-            #print(trans_variable.shape,trans0.shape,(p_2D.view(1,  -1) - target_2D.view(1,  -1)).pow(2).sum(), (trans_variable-trans0).pow(2).sum())
+             
             loss2D.backward()
             with torch.no_grad():
                 trans_variable -= 0.003  * trans_variable.grad
