@@ -78,9 +78,9 @@ class InferencePipeline():
         self.DyNet.eval()
         self.GRFNet.eval()
 
-        ### setup custom pytorch functions including the Physics model ###PyForwardKinematicsQuaternionHuman36M_test
-        self.PyFK = ppf.PyForwardKinematicsQuaternionHuman36M_test().apply 
-        self.PyFK_rr = ppf.PyForwardKinematicsQuaternionHuman36M_test().apply 
+        ### setup custom pytorch functions including the Physics model 
+        self.PyFK = ppf.PyForwardKinematicsQuaternion().apply 
+        self.PyFK_rr = ppf.PyForwardKinematicsQuaternion().apply 
         self.PyFD = ppf.PyForwardDynamics.apply
         self.PyProj =  PyProjection.apply
         self.PyPD =   PyPerspectivieDivision.apply
@@ -320,7 +320,10 @@ if __name__ == "__main__":
     parser.add_argument('--cam_params_path', default="./sample_data/sample_cam_params.npy")
 
     args = parser.parse_args()
-
+    """
+    todo:
+    start from frame 1 (not 10)
+    """
     AU = angle_util()
     LF = LossFunctions()
     delta_t = 0.011
