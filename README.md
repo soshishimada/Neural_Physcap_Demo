@@ -1,6 +1,7 @@
  # Demo: "Neural PhysCap" Neural Monocular 3D Human Motion Capture with Physical Awareness
-The implementation is based on [SIGGRAPH '21](http://vcai.mpi-inf.mpg.de/projects/PhysAware/). 
-Authors: Soshi Shimada  Vladislav Golyanik  Weipeng Xu  Patrick Pérez  Christian Theobalt
+The implementation is based on [SIGGRAPH '21](http://vcai.mpi-inf.mpg.de/projects/PhysAware/).   
+Neural Monocular 3D Human Motion Capture with Physical Awareness  
+Authors: Soshi Shimada  Vladislav Golyanik  Weipeng Xu  Patrick Pérez  Christian Theobalt  
  
 ## Dependencies
 - Python 3.7
