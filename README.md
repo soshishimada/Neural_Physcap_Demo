@@ -7,7 +7,7 @@ The implementation is based on [SIGGRAPH '21](http://vcai.mpi-inf.mpg.de/project
 ## Dependencies
 - Python 3.7
 - Ubuntu 18.04 (The system should run on other Ubuntu versions and Windows, however not tested.)
-- RBDL: Rigid Body Dynamics Library (https://rbdl.github.io/). Tested on  V.2.6.0. 
+- RBDL: Rigid Body Dynamics Library (https://rbdl.github.io/). Tested on  V.2.6.0.  (Important: set "RBDL_BUILD_ADDON_URDFREADER " to be "ON" when you compile. Also don't forget to add the compiled rbdl library in your python path use it.)
 - pytorch 1.10.1
 - For other python packages, please check requirements.txt
 
