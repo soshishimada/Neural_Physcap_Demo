@@ -212,7 +212,7 @@ class InferencePipeline():
         basis_vec_w = torch.FloatTensor(np.array([[1, 0, 0, ], [0, 1, 0, ], [0, 0, 1, ]])).view(1, 3, 3)
         basis_vec_w = basis_vec_w.expand(n_b, -1, -1)
         
-        for i in range(temporal_window, len(p_2ds_rr)):
+        for i in range(temporal_window,1000):#len(p_2ds_rr)):
             print(i) 
             frame_canonical_2Ds = canoical_2Ds[i - temporal_window:i, ].reshape(n_b, temporal_window, -1)
             frame_rr_2Ds = p_2ds_rr[i - temporal_window:i, ].reshape(n_b, temporal_window, -1)
