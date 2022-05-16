@@ -19,7 +19,7 @@ Authors: Soshi Shimada  Vladislav Golyanik  Weipeng Xu  Patrick Pérez and Chris
 		pip install -r requirements.txt
 
 ## How to Run 
-1) Download pretrained model from [here](https://drive.google.com/file/d/1ViIDOiCkBcUUm_BIS3W1z2ELRTKYIbBQ/view?usp=sharing). Below, we assume all the pretrained networks are place under "../pretrained_neuralPhys/".
+1) Download pretrained model from [here](https://drive.google.com/file/d/1sMXJRvq1tTNuqCwrYjugMlM-kOv6s06Q/view?usp=sharing). Below, we assume all the pretrained networks are place under "../pretrained_neuralPhys/".
  
 2) We provide a sample data under "sample_data" To run the code on our sample data, first go to root directory (neuralphyscap_demo_release) and run:
 
